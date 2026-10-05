@@ -1,0 +1,28 @@
+# Render Blueprint — Portfolio3D API (staging $0)
+# Dashboard → New → Blueprint → 이 저장소 연결.
+# Neon Postgres 사용 시: Neon에서 DB 생성 후 p3d-api의 DATABASE_URL을
+# Neon pooled connection string (postgresql+asyncpg://...) 으로 덮어쓰기.
+services:
+  - type: web
+    name: p3d-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: staging
+      - key: DEBUG
+        value: false
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./portfolio3d.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CONVERSION_PROVIDER
+        value: mock
+      - key: CORS_ORIGINS
+        value: http://localhost:3000
+        # 프론트 배포 후 실제 URL로 교체:
+        # https://p3d-frontend.vercel.app

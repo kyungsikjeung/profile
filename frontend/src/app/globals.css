@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/*
+ * Portfolio3D design tokens — DARK LOCKED single-accent system.
+ *
+ * Accent lock: --color-primary (#6366f1) is the ONLY brand accent on site
+ * chrome. Template `accent` values in lib/templates.ts are product data
+ * (user portfolio themes), not site chrome — exempt.
+ * Radius rule: 12px interactive / 16px cards / 24px panels / full pills
+ * for badges & chips only.
+ * z-scale: nav 50 → floating chips 10 → grain 100 (fixed, pointer-none).
+ */
+
+@theme {
+  --color-primary: #6366f1;
+  --color-primary-deep: #4f46e5;
+  --color-primary-soft: #a5b4fc;
+
+  --color-ink: #08080d;
+  --color-panel: #0e0e15;
+  --color-raised: #16161f;
+  --color-line: #23232e;
+  --color-fog: #9aa3b2;
+  --color-mist: #f4f6fb;
+
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+  --animate-rise: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  --ease-emph: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* 히어로 원샷 등장: 로드 시 한 번만, 이후 정적 유지 */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-mist);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Film grain — fixed overlay only (never on scrolling containers). */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,22 @@
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+backend/.env
+*.db
+
+# Uploads (ephemeral local files)
+backend/storage/uploads/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# OS
+.DS_Store
